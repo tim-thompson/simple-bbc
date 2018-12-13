@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple BBC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Simple BBC</h1>
+        <p class="subtitle">
+            BBC News plain and simple.
+        </p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            {% for headline in headlines %}
+                <div class="column is-one-third">
+                    <a href="{{ headlines.index(headline) }}">
+                        <div class="card">
+                            <div class="card-content">
+                                <img src="{{ headline.urlToImage }}"/>
+                                <h2 class="title">{{ headline.title }}</h2>
+                                <h3 class="subtitle">{{ headline.description }}</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+</body>
+</html>
