@@ -1,14 +1,21 @@
 import os
-import urllib.parse
 
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, redirect, url_for
 import requests
 
+
+class BadKeyError(Exception):
+    pass
+
+
 app = Flask(__name__)
 
 key = os.getenv("NEWSAPI_KEY")
 base_url = "https://newsapi.org/v2/"
+
+if key is None or key == "":
+    raise BadKeyError("Please ensure the NEWSAPI_KEY environment variable is set")
 
 headlines = []
 
@@ -53,7 +60,7 @@ def article(index):
                     caption = item.select("span.media-caption__text")
                     caption = caption[0] if len(caption) > 0 else ""
                     article += f"""
-                        <figure>
+                        <figure class="box">
                             {img.prettify()}
                             <figcaption>
                                 {caption}
