@@ -10,7 +10,7 @@ I have created this project in an effort to focus more on the content I am consu
 
 ## Tech
 
-Simple BBC runs on Python using Flask as the web server, requests to talk to [newsapi.org](newsapi.org), and Bulma as the CSS Framework.
+Simple BBC runs on Python using Flask as the web server, requests to talk to [newsapi.org](newsapi.org), Beautiful Soup to scrape the articles and the Bulma CSS Framework.
 
 ## Setup and Operation
 
