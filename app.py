@@ -64,20 +64,25 @@ def article(index):
                         caption = span.text
                 for span in item.select("span"):
                     for div in span.select("div.js-delayed-image-load"):
-                        if div['data-alt'] in ["Short presentational grey line", "Presentational grey line"]:
+                        if div["data-alt"] in [
+                            "Short presentational grey line",
+                            "Presentational grey line",
+                        ]:
                             article += "<hr/>"
                         else:
-                            img_url = urlsplit(div['data-src'])
-                            img_path = img_url.path.split('/')
+                            img_url = urlsplit(div["data-src"])
+                            img_path = img_url.path.split("/")
                             img_path[2] = str(800)
-                            new_path = ("/".join(img_path))
-                            new_img_url = urlunsplit((
-                                img_url.scheme,
-                                img_url.netloc,
-                                new_path,
-                                img_url.query,
-                                img_url.fragment
-                            ))
+                            new_path = "/".join(img_path)
+                            new_img_url = urlunsplit(
+                                (
+                                    img_url.scheme,
+                                    img_url.netloc,
+                                    new_path,
+                                    img_url.query,
+                                    img_url.fragment,
+                                )
+                            )
                             article += f"""
                                 <figure class="box">
                                     <img 
@@ -92,17 +97,19 @@ def article(index):
                 for img in item.select("img"):
                     caption = item.select("span.media-caption__text")
                     caption = caption[0] if len(caption) > 0 else ""
-                    img_url = urlsplit(img['src'])
-                    img_path = img_url.path.split('/')
+                    img_url = urlsplit(img["src"])
+                    img_path = img_url.path.split("/")
                     img_path[2] = str(800)
-                    new_path = ("/".join(img_path))
-                    new_img_url = urlunsplit((
-                        img_url.scheme,
-                        img_url.netloc,
-                        new_path,
-                        img_url.query,
-                        img_url.fragment
-                    ))
+                    new_path = "/".join(img_path)
+                    new_img_url = urlunsplit(
+                        (
+                            img_url.scheme,
+                            img_url.netloc,
+                            new_path,
+                            img_url.query,
+                            img_url.fragment,
+                        )
+                    )
                     article += f"""
                         <figure class="box">
                             <img src="{new_img_url}" alt="{img['alt']}"/>
@@ -111,7 +118,7 @@ def article(index):
                             </figcaption>
                         </figure>
                     """
-            elif item.name == "div" and item['class'][0] == "social-embed":
+            elif item.name == "div" and item["class"][0] == "social-embed":
                 print(item)
                 article += item.prettify()
     title = ""
