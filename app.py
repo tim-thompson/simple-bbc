@@ -64,39 +64,56 @@ def article(index):
                         caption = span.text
                 for span in item.select("span"):
                     for div in span.select("div.js-delayed-image-load"):
-                        img_url = urlsplit(div['data-src'])
-                        img_path = img_url.path.split('/')
-                        img_path[2] = str(800)
-                        new_path = ("/".join(img_path))
-                        new_img_url = urlunsplit((
-                            img_url.scheme,
-                            img_url.netloc,
-                            new_path,
-                            img_url.query,
-                            img_url.fragment
-                        ))
-                        article += f"""
-                            <figure class="box">
-                                <img 
-                                    src={new_img_url} 
-                                    alt="{div['data-alt']}"
-                                />
-                                <figcaption>
-                                    <strong>{caption}</strong>
-                                </figcaption>
-                            </figure>
-                        """
+                        if div['data-alt'] in ["Short presentational grey line", "Presentational grey line"]:
+                            article += "<hr/>"
+                        else:
+                            img_url = urlsplit(div['data-src'])
+                            img_path = img_url.path.split('/')
+                            img_path[2] = str(800)
+                            new_path = ("/".join(img_path))
+                            new_img_url = urlunsplit((
+                                img_url.scheme,
+                                img_url.netloc,
+                                new_path,
+                                img_url.query,
+                                img_url.fragment
+                            ))
+                            article += f"""
+                                <figure class="box">
+                                    <img 
+                                        src={new_img_url} 
+                                        alt="{div['data-alt']}"
+                                    />
+                                    <figcaption>
+                                        <strong>{caption}</strong>
+                                    </figcaption>
+                                </figure>
+                            """
                 for img in item.select("img"):
                     caption = item.select("span.media-caption__text")
                     caption = caption[0] if len(caption) > 0 else ""
+                    img_url = urlsplit(img['src'])
+                    img_path = img_url.path.split('/')
+                    img_path[2] = str(800)
+                    new_path = ("/".join(img_path))
+                    new_img_url = urlunsplit((
+                        img_url.scheme,
+                        img_url.netloc,
+                        new_path,
+                        img_url.query,
+                        img_url.fragment
+                    ))
                     article += f"""
                         <figure class="box">
-                            {img.prettify()}
+                            <img src="{new_img_url}" alt="{img['alt']}"/>
                             <figcaption>
                                 <strong>{caption}</strong>
                             </figcaption>
                         </figure>
                     """
+            elif item.name == "div" and item['class'][0] == "social-embed":
+                print(item)
+                article += item.prettify()
     title = ""
     for h1 in html.select("h1"):
         title = h1.text
